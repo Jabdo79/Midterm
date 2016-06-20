@@ -2,12 +2,12 @@ public class Product {
 	private String productName;
 	private String productCategory;
 	private String productDescription;
-	private int productPrice;
+	private double productPrice;
 	private int productQuantity;
 
 	// Constructor
 	public Product(String productName, String productCategory,
-			String productDescription, int productPrice) {
+			String productDescription, double productPrice) {
 		this.productName = productName;
 		this.productCategory = productCategory;
 		this.productDescription = productDescription;
@@ -39,7 +39,7 @@ public class Product {
 		return productDescription;
 	}
 
-	public int getProductPrice() {
+	public double getProductPrice() {
 		return productPrice;
 	}
 
