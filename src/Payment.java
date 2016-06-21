@@ -26,7 +26,6 @@ public class Payment {
 											.getProductQuantity())), mc);
 		}
 
-		
 		taxes = subtotal.multiply(new BigDecimal(0.06, mc), mc);
 		total = subtotal.add(taxes, mc);
 		subtotal = subtotal.setScale(2, RoundingMode.HALF_UP);
@@ -66,7 +65,7 @@ public class Payment {
 	public static void credit() {
 		System.out.print("Enter your credit card number: ");
 		String ccnum = sc.nextLine();
-		while(ccnum.contains("[a-zA-Z]+") || ccnum.length() != 16){
+		while (ccnum.contains("[a-zA-Z]+") || ccnum.length() != 16) {
 			System.out.println("Please enter a valid credit card number.");
 			ccnum = sc.nextLine();
 		}
@@ -75,7 +74,8 @@ public class Payment {
 		String exp = sc.nextLine();
 		System.out.print("Enter the CVV: ");
 		int cvv = sc.nextInt();
-		System.out.println("Your credit card (ending in: " + subCCnum + " exp. date: " + exp + ") has been approved!  Thank you.");
+		System.out.println("Your credit card (ending in: " + subCCnum
+				+ " exp. date: " + exp + ") has been approved!  Thank you.");
 
 	}
 
@@ -107,6 +107,7 @@ public class Payment {
 			break;
 
 		case "credit":
+			credit();
 			break;
 		}
 
