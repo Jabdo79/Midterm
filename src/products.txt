@@ -12,3 +12,5 @@ American Cheese	Dairy	Always made with real milk, they're an excellent source of
 Greek Yogurt	Dairy	Light yogurt product with zero fat and glueten free.	4.99
 Chips Ahoy Cookie Bag	Snacks	You can't get a better tasting Chocolate Chip cookie.	2.49
 Pringles Stack	Snacks	Once you pop you just can't stop!	1.50
+Pop-Tart	Snacks	Great on-the-go snack!	2.99
+Fruit-by-the-Foot	Snacks	Fun fruit snack!	1.99

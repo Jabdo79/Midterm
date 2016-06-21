@@ -116,17 +116,12 @@ public class Payment {
 		System.out.println("\nHere's your order: ");
 		for (int i = 0; i < userProducts.size(); i++) {
 
-			System.out.print(userProducts.get(i).getProductName()
-					+ "\t"
-					+ (userProducts.get(i).getProductQuantity())
-					+ "\t\t$"
-					+ userProducts
-							.get(i)
-							.getProductPrice()
-							.multiply(
-									new BigDecimal(userProducts.get(i)
-											.getProductQuantity()), mc) + "\n");
-
+			System.out.format("%-25s%-10s%-5s", 
+					userProducts.get(i).getProductName(),
+					"x"+ userProducts.get(i).getProductQuantity(),
+					"$" + userProducts.get(i).getProductPrice().multiply(
+							new BigDecimal(userProducts.get(i).getProductQuantity()), mc));
+			System.out.println("");
 		}
 		calcSubtotal(userProducts);
 		getPayment();
