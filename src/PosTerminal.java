@@ -48,7 +48,7 @@ public class PosTerminal {
 		file = new File(p.toString());
 		
 		//BigDecimal Formatting to two digits after decimal
-		MathContext mc = new MathContext(2);
+		MathContext mc = new MathContext(4);
 		
 		String line = null;
 		boolean empty = true;
@@ -57,14 +57,12 @@ public class PosTerminal {
 			// create new reader using the file's path and US char set
 			BufferedReader br = Files.newBufferedReader(file.toPath(), charset);
 			
-			
-
 			// while the line is not empty, create a product from it and store in arraylist
 			while ((line = br.readLine()) != null) {
 				//splits line by tab
 				String[] splitProduct = line.split("\t");
 				//creates a product object from split line
-				Product product = new Product(splitProduct[0], splitProduct[1], splitProduct[2], Double.parseDouble(splitProduct[3]));
+				Product product = new Product(splitProduct[0], splitProduct[1], splitProduct[2], new BigDecimal(splitProduct[3], mc));
 				//adds product to arraylist
 				products.add(product);
 				empty = false;
