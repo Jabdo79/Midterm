@@ -46,15 +46,19 @@ public class Payment {
 
 	public static void credit(){
 		System.out.print("Enter your credit card number: ");
-		int ccnum = sc.nextInt();
-		sc.nextLine();
+		String ccnum = sc.nextLine();
+		while(ccnum.contains("[a-zA-Z]+") || ccnum.length() != 16){
+			System.out.println("Please enter a valid credit card number.");
+			ccnum = sc.nextLine();
+		}
+		String subCCnum = ccnum.substring(12);
 		System.out.print("Enter the expiration: ");
 		String exp = sc.nextLine();
 		System.out.print("Enter the CVV: ");
 		int cvv = sc.nextInt();
-		System.out.println("Your credit card (number: " + ccnum + " exp. date: " + exp + ") has been approved!  Thank you.");
+		System.out.println("Your credit card (ending in: " + subCCnum + " exp. date: " + exp + ") has been approved!  Thank you.");
+		
 	}
-
 
 	public static void receipt(ArrayList<Product> userProducts, Scanner scan) {
 		sc = scan;
