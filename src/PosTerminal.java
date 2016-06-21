@@ -11,8 +11,6 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -99,7 +97,7 @@ public class PosTerminal {
 			displayCategory("Snacks");
 			break;
 		case 6:
-			Payment.receipt(cart);//
+			Payment.receipt(cart, sc);//
 			orderNumber +=1;
 			break;
 		case 7:
