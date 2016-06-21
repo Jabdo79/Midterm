@@ -2,6 +2,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Payment {
+
 	
 	private static double subtotal;
 	private static double total;
@@ -14,11 +15,11 @@ public class Payment {
 		System.out.println("Your subtotal is: " + subtotal);
 		System.out.println("Your taxes are: " + taxes);
 		System.out.println("Your total is: " + total);
+	}
 		
 
-	}
-	
-	public static void cash (Scanner sc) {
+
+	public static void cash(Scanner sc) {
 		System.out.print("Cash: ");
 		double tender = sc.nextDouble();
 		double change = tender - total;
@@ -26,11 +27,23 @@ public class Payment {
 	}
 
 	public static int check;
-	
+
 	public static int credit;
-	
-	public static void receipt(ArrayList userProducts) {
-		
+
+
+	public static void receipt(ArrayList<Product> userProducts) {
+
+		for (int i = 0; i < userProducts.size(); i++) {
+
+			System.out.print(userProducts.get(i).getProductName()
+					+ "\t"
+					+ (userProducts.get(i).getProductQuantity())
+					+ "\t\t$"
+					+ ((userProducts.get(i).getProductPrice()) * (userProducts
+							.get(i).getProductQuantity())));
+
+			// call: CalcSubtotal(); test
+		}
+
 	}
-	
 }
