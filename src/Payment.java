@@ -37,7 +37,14 @@ public class Payment {
 		System.out.print("Cash: ");
 		BigDecimal tender = new BigDecimal(sc.nextDouble());
 		BigDecimal change = tender.subtract(total, mc);
-		System.out.println("Thank you! Your change is " + change);
+		if (tender.compareTo(total) < 0) {
+			System.out.println("The remaining balance is: " + change.abs()
+					+ " Please settle your balance.");
+
+		} else {
+
+			System.out.println("Thank you! Your change is " + change);
+		}
 	}
 
 	public static void check() {
@@ -80,16 +87,18 @@ public class Payment {
 
 		}
 		calcSubtotal(userProducts);
-		System.out.println("How would you like to pay?");
-
+		System.out.println("How would you like to pay? "
+				+ "Please choose a payment method cash, payment or credit: ");
 		String paymentChoice = sc.nextLine().toLowerCase();
-
+		System.out.println("Your choice: " + paymentChoice);
 		switch (paymentChoice) {
 		case "cash":
-			// call method
+
+			cash();
 			break;
 
 		case "check":
+			check();
 			break;
 
 		case "credit":
