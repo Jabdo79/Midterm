@@ -7,7 +7,7 @@ public class Payment {
 	// String.format("%.2f", floatValue);
 
 	public static NumberFormat nd = new DecimalFormat("#0.00");
-
+	private static Scanner sc;
 	private static double subtotal;
 	private static double total;
 	private static double taxes;
@@ -25,7 +25,7 @@ public class Payment {
 	}
 
 	public static void cash(Scanner sc) {
-		System.out.print("Cash: ");
+		System.out.print("Cash: $");
 		double tender = sc.nextDouble();
 		double change = tender - total;
 		System.out.println("Thank you! Your change is " + change);
@@ -33,7 +33,16 @@ public class Payment {
 
 	public static int check;
 
-	public static int credit;
+	public static void credit(Scanner sc){
+		System.out.print("Enter your credit card number: ");
+		int ccnum = sc.nextInt();
+		sc.nextLine();
+		System.out.print("Enter the expiration: ");
+		String exp = sc.nextLine();
+		System.out.print("Enter the CVV: ");
+		int cvv = sc.nextInt();
+		System.out.println("Thank you.  Your");
+	}
 
 	public static void receipt(ArrayList<Product> userProducts) {
 
