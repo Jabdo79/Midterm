@@ -5,10 +5,14 @@
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.MathContext;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -43,12 +47,17 @@ public class PosTerminal {
 		// creates a new file using the path
 		file = new File(p.toString());
 		
+		//BigDecimal Formatting to two digits after decimal
+		MathContext mc = new MathContext(2);
+		
 		String line = null;
 		boolean empty = true;
 
 		try {
 			// create new reader using the file's path and US char set
 			BufferedReader br = Files.newBufferedReader(file.toPath(), charset);
+			
+			
 
 			// while the line is not empty, create a product from it and store in arraylist
 			while ((line = br.readLine()) != null) {
