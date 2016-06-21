@@ -31,7 +31,13 @@ public class Payment {
 		System.out.println("Thank you! Your change is " + change);
 	}
 
-	public static int check;
+	public static void check(Scanner check) {
+		System.out.print("Please enter you check number: ");
+		int paymentChoice = check.nextInt();
+		System.out.println("Thank you! Your check number: " + paymentChoice
+				+ "has been aproved.");
+
+	}
 
 	public static void credit(Scanner sc){
 		System.out.print("Enter your credit card number: ");
@@ -57,5 +63,7 @@ public class Payment {
 
 		}
 		calcSubtotal(userProducts);
+		System.out.println("How would you like to pay?");
+
 	}
 }
