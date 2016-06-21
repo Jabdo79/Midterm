@@ -17,7 +17,7 @@ public class Product {
 
 	// Constructor overloading 2
 	public Product(String productName, String productCategory,
-			String productDescription, int productPrice, int quantity) {
+			String productDescription, double productPrice, int quantity) {
 		this.productName = productName;
 		this.productCategory = productCategory;
 		this.productDescription = productDescription;

@@ -1,0 +1,3 @@
+Apple	Fruit	Red	1.99
+Carrot	Vegetable	Orange	0.99
+Mango	Fruit	Orange-Yellow	2.99
