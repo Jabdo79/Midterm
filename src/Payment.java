@@ -26,7 +26,8 @@ public class Payment {
 											.getProductQuantity())), mc);
 		}
 
-		taxes = subtotal.multiply(new BigDecimal(0.06), mc);
+		
+		taxes = subtotal.multiply(new BigDecimal(0.06, mc), mc);
 		total = subtotal.add(taxes, mc);
 		subtotal = subtotal.setScale(2, RoundingMode.HALF_UP);
 		System.out.println("\nYour subtotal is: $" + subtotal);
