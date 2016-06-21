@@ -55,6 +55,6 @@ public class Payment {
 		}
 		calcSubtotal(userProducts);
 		System.out.println("How would you like to pay?");
-
+		// cande...
 	}
 }
