@@ -92,7 +92,7 @@ public class PosTerminal {
 			displayCategory("Snacks");
 			break;
 		case 6:
-			Payment.receipt(cart);
+			Payment.receipt(cart);//
 			orderNumber +=1;
 			break;
 		case 7:
