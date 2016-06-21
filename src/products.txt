@@ -1,3 +1,14 @@
-Apple	Fruit	Red	1.99
-Carrot	Vegetable	Orange	0.99
-Mango	Fruit	Orange-Yellow	2.99
+Apple	Fruit	A soft bite over a mellow sweetness.	0.99
+Carrot	Vegetable	All purpose fresh whole carrot. 1lb bag	0.89
+Mango	Fruit	Known for their sweet, juicy flavor, mangos will provide you with 100% of your daily vitamin C.	1.25
+Watermelon	Fruit	A smooth, green exterior rind, sweet interior flesh and usually deep red color	5.99
+Chicken Breast	Meat	Boneless & Skinless, have even less fat than the regular line, 1lb.	3.79
+Ribeye Steak	Meat	Perfectly Marbled for incredible juiciness and tenderness, 1lb.	15.99
+Ground Turkey	Meat	All-natural with only 8 grams of fat per serving and no gluten, 16oz.	3.99
+Kale	Vegetable	Add Kale to salads, soups, wraps, or sandwiches! 1 bunch.	1.29
+Cauliflower	Vegetable	The Tasty (and Super Nutritious) White Wonder!	2.50
+Milk	Dairy	Grade A milk which has been standardized to a minimum of 3.25% milkfat. 1 gallon.	1.99
+American Cheese	Dairy	Always made with real milk, they're an excellent source of calcium, now with no artificial preservatives or flavors.	3.39
+Greek Yogurt	Dairy	Light yogurt product with zero fat and glueten free.	4.99
+Chips Ahoy Cookie Bag	Snacks	You can't get a better tasting Chocolate Chip cookie.	2.49
+Pringles Stack	Snacks	Once you pop you just can't stop!	1.50
