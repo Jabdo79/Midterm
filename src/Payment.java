@@ -32,7 +32,6 @@ public class Payment {
 							.get(i).getProductQuantity())));
 
 			// call: CalcSubtotal();
-
 		}
 	}
 }
