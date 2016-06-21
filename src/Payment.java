@@ -31,7 +31,7 @@ public class Payment {
 					+ ((userProducts.get(i).getProductPrice()) * (userProducts
 							.get(i).getProductQuantity())));
 
-			// call: CalcSubtotal();
+			// call: CalcSubtotal(); test
 		}
 	}
 }
