@@ -33,7 +33,7 @@ public class Payment {
 
 	public static void check() {
 		System.out.print("Please enter you check number: ");
-		int paymentChoice = check.nextInt();
+		int checkNumber = sc.nextInt();
 		System.out.println("Thank you! Your check number: " + paymentChoice
 				+ "has been aproved.");
 
@@ -47,7 +47,7 @@ public class Payment {
 		String exp = sc.nextLine();
 		System.out.print("Enter the CVV: ");
 		int cvv = sc.nextInt();
-		System.out.println("Thank you.  Your");
+		System.out.println("Your credit card (number: " + ccnum + " exp. date: " + exp + ") has been approved!  Thank you.");
 	}
 
 	public static void receipt(ArrayList<Product> userProducts, Scanner scan) {
@@ -64,6 +64,7 @@ public class Payment {
 		}
 		calcSubtotal(userProducts);
 		System.out.println("How would you like to pay?");
+		String paymentChoice = sc.nextLine();
 
 	}
 }
