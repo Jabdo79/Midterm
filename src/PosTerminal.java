@@ -121,8 +121,12 @@ public class PosTerminal {
 				catMenuNum += 1;
 				categoryList.add(products.get(i));
 				
-				System.out.print(catMenuNum + "." + products.get(i).getProductName() + "\t\t$" + products.get(i).getProductPrice());
-				System.out.println("\t" + products.get(i).getProductDescription());
+				System.out.format("%-1d%-25s%-10s%-10s", 
+						catMenuNum, 
+						"." + products.get(i).getProductName(), 
+						"$" + products.get(i).getProductPrice(),
+						"-" + products.get(i).getProductDescription());
+				System.out.println("");
 			}
 		}
 		if(isEmpty)
