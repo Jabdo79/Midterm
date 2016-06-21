@@ -9,18 +9,24 @@ public class Payment {
 	// String.format("%.2f", floatValue);
 
 	public static NumberFormat nd = new DecimalFormat("#0.00");
-	//BigDecimal Formatting to two digits after decimal
+	// BigDecimal Formatting to two digits after decimal
 	private static MathContext mc = new MathContext(4);
 	private static BigDecimal subtotal = new BigDecimal(0);
 	private static BigDecimal total;
 	private static BigDecimal taxes;
 
 	public static void calcSubtotal(ArrayList<Product> userProducts) {
-		
-		for (int i = 0; i < userProducts.size(); i++){
-			subtotal = subtotal.add(userProducts.get(i).getProductPrice().multiply(new BigDecimal(userProducts.get(i).getProductQuantity())), mc);
+
+		for (int i = 0; i < userProducts.size(); i++) {
+			subtotal = subtotal.add(
+					userProducts
+							.get(i)
+							.getProductPrice()
+							.multiply(
+									new BigDecimal(userProducts.get(i)
+											.getProductQuantity())), mc);
 		}
-		
+
 		taxes = subtotal.multiply(new BigDecimal(0.06), mc);
 		total = subtotal.add(taxes, mc);
 		System.out.println("\nYour subtotal is: $" + subtotal);
@@ -38,8 +44,8 @@ public class Payment {
 
 	public static void check(Scanner check) {
 		System.out.print("Please enter you check number: ");
-		int paymentChoice = check.nextInt();
-		System.out.println("Thank you! Your check number: " + paymentChoice
+		int checkNumber = check.nextInt();
+		System.out.println("Thank you! Your check number: " + checkNumber
 				+ "has been aproved.");
 
 	}
@@ -54,11 +60,29 @@ public class Payment {
 					+ "\t"
 					+ (userProducts.get(i).getProductQuantity())
 					+ "\t\t$"
-					+ userProducts.get(i).getProductPrice().multiply(new BigDecimal(userProducts.get(i).getProductQuantity()), mc) + "\n");
+					+ userProducts
+							.get(i)
+							.getProductPrice()
+							.multiply(
+									new BigDecimal(userProducts.get(i)
+											.getProductQuantity()), mc) + "\n");
 
 		}
 		calcSubtotal(userProducts);
 		System.out.println("How would you like to pay?");
-		// cande...
+		String paymentChoice = sc.nextLine().toLowerCase();
+
+		switch (paymentChoice) {
+		case "cash":
+			// call method
+			break;
+
+		case "check":
+			break;
+
+		case "credit":
+			break;
+		}
+
 	}
 }
