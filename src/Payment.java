@@ -1,5 +1,6 @@
 import java.math.BigDecimal;
 import java.math.MathContext;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -10,7 +11,7 @@ public class Payment {
 
 	private static MathContext mc = new MathContext(4);
 	private static BigDecimal subtotal = new BigDecimal(0);
-	private static BigDecimal total;
+	private static BigDecimal total = new BigDecimal(0);
 	private static BigDecimal taxes;
 
 	public static void calcSubtotal(ArrayList<Product> userProducts) {
@@ -28,9 +29,13 @@ public class Payment {
 		
 		taxes = subtotal.multiply(new BigDecimal(0.06, mc), mc);
 		total = subtotal.add(taxes, mc);
+		subtotal = subtotal.setScale(2, RoundingMode.HALF_UP);
 		System.out.println("\nYour subtotal is: $" + subtotal);
 
+		taxes = taxes.setScale(2, RoundingMode.HALF_UP);
 		System.out.println("Your taxes are: $" + taxes);
+
+		total = total.setScale(2, RoundingMode.HALF_UP);
 		System.out.println("Your total is: $" + total);
 	}
 
