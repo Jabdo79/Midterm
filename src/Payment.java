@@ -24,14 +24,14 @@ public class Payment {
 		System.out.println("Your total is: $" + nd.format(total));
 	}
 
-	public static void cash(Scanner sc) {
+	public static void cash() {
 		System.out.print("Cash: $");
 		double tender = sc.nextDouble();
 		double change = tender - total;
 		System.out.println("Thank you! Your change is " + change);
 	}
 
-	public static void check(Scanner check) {
+	public static void check() {
 		System.out.print("Please enter you check number: ");
 		int paymentChoice = check.nextInt();
 		System.out.println("Thank you! Your check number: " + paymentChoice
@@ -39,7 +39,7 @@ public class Payment {
 
 	}
 
-	public static void credit(Scanner sc){
+	public static void credit(){
 		System.out.print("Enter your credit card number: ");
 		int ccnum = sc.nextInt();
 		sc.nextLine();
@@ -50,8 +50,8 @@ public class Payment {
 		System.out.println("Thank you.  Your");
 	}
 
-	public static void receipt(ArrayList<Product> userProducts) {
-
+	public static void receipt(ArrayList<Product> userProducts, Scanner scan) {
+		sc = scan;
 		for (int i = 0; i < userProducts.size(); i++) {
 
 			System.out.print(userProducts.get(i).getProductName()
