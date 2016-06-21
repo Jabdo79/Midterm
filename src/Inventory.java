@@ -1,8 +1,11 @@
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.MathContext;
+import java.math.RoundingMode;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -12,15 +15,16 @@ import java.util.Scanner;
 
 public class Inventory {
 	
-	static ArrayList<Product> products = new ArrayList<Product>();
-	static ArrayList<Product> cart = new ArrayList<Product>();
-	static int orderNumber = 1;
-	static Scanner sc = new Scanner(System.in);
+	private static ArrayList<Product> products = new ArrayList<Product>();
+	private static ArrayList<Product> cart = new ArrayList<Product>();
+	private static int orderNumber = 1;
+	private static Scanner sc = new Scanner(System.in);
+	private static File file;
+	private static final Charset charset = Charset.forName("US-ASCII");
 	
 	public static void populateProducts() {
 
-		File file;
-		final Charset charset = Charset.forName("US-ASCII");
+		
 		
 		// creates a path including filename
 		Path p = Paths.get("src/products.txt");
@@ -57,14 +61,56 @@ public class Inventory {
 			System.out.println("List is empty!");
 	}
 	
+	private static void addProduct(){
+		System.out.print("\nEnter product name: ");
+		String name = sc.nextLine().trim();
+		System.out.print("Enter product category: ");
+		String cat = sc.nextLine().trim();
+		System.out.print("Enter product description: ");
+		String desc = sc.nextLine().trim();
+		System.out.print("Enter product price: ");
+		BigDecimal price = new BigDecimal(InputCheck.getDouble(sc)).setScale(2, RoundingMode.HALF_UP);
+		String prod = name + "\t" + cat + "\t" + desc + "\t" + price;
+		
+		if (!containsProduct(name)) {
+			try {
+				// opens file with intention of appending
+				FileWriter fw = new FileWriter(file.getAbsolutePath(), true);
+				BufferedWriter bw = new BufferedWriter(fw);
+				// write to file
+				bw.write(prod + "\n");
+				bw.close();
+
+			} catch (IOException e) {
+				System.out.println(e);
+			}
+			System.out.println(name + " has been saved!");
+			populateProducts();
+		}
+		else
+			System.out.println(name+" is already in the list.");
+	}
+	
+	private static boolean containsProduct(String name){
+		boolean found = false;
+		
+		for(int i = 0; i < products.size(); i++){
+			if(products.get(i).getProductName().equalsIgnoreCase(name)){
+				found = true;
+				break;
+			}	
+		}
+		return found;
+	}
+	
 	public static void displayMenu(){
 		boolean cont = true;
 		
 		while (cont) {
 			System.out.println("\nOrder #: " + orderNumber);
 			int choice = InputCheck.getInt(sc,
-					"\nCategories\n1.Fruit\n2.Vegetable\n3.Meat\n4.Dairy\n5.Snacks\n6.Checkout\n7.Exit\nChoose one: (1-7) ",
-					1, 7);
+					"\nCategories\n1.Fruit\n2.Vegetable\n3.Meat\n4.Dairy\n5.Snacks\n6.Checkout\n7.Add Product\n8.Exit\nChoose one: (1-8) ",
+					1, 8);
 			switch (choice) {
 			case 1:
 				displayCategory("Fruit");
@@ -82,10 +128,13 @@ public class Inventory {
 				displayCategory("Snacks");
 				break;
 			case 6:
-				Payment.receipt(cart, sc);//
+				Payment.receipt(cart, sc);
 				orderNumber += 1;
 				break;
 			case 7:
+				addProduct();
+				break;
+			case 8:
 				System.out.println("\nPlease come again!");
 				cont = false;
 				break;
@@ -93,7 +142,7 @@ public class Inventory {
 		}
 	}
 	
-	public static void displayCategory(String category){
+	private static void displayCategory(String category){
 		ArrayList<Product> categoryList = new ArrayList<Product>();
 		boolean isEmpty = true;
 		int catMenuNum = 0;
@@ -128,7 +177,7 @@ public class Inventory {
 		
 	}
 	
-	public static void displayCart(){
+	private static void displayCart(){
 		System.out.println("\nShopping cart:");
 		for (int i = 0; i < cart.size(); i++) {
 			System.out.println(cart.get(i).getProductName() + "\t(x" + cart.get(i).getProductQuantity() + ")");
