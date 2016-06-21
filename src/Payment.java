@@ -1,40 +1,45 @@
+import java.math.BigDecimal;
+import java.math.MathContext;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Payment {
-	// String.format("%.2f", floatValue);
-
-	public static NumberFormat nd = new DecimalFormat("#0.00");
 	private static Scanner sc;
-	private static double subtotal;
-	private static double total;
-	private static double taxes;
+	//BigDecimal Formatting to two digits after decimal
+	private static MathContext mc = new MathContext(4);
+	private static BigDecimal subtotal = new BigDecimal(0);
+	private static BigDecimal total;
+	private static BigDecimal taxes;
+
 
 	public static void calcSubtotal(ArrayList<Product> userProducts) {
-		for (int i = 0; i < userProducts.size(); i++)
-			subtotal += userProducts.get(i).getProductPrice()
-					* userProducts.get(i).getProductQuantity();
-		taxes = subtotal * 0.06;
-		total = subtotal + taxes;
-		System.out.println("Your subtotal is: $" + nd.format(subtotal));
+		
+		for (int i = 0; i < userProducts.size(); i++){
+			subtotal = subtotal.add(userProducts.get(i).getProductPrice().multiply(new BigDecimal(userProducts.get(i).getProductQuantity())), mc);
+		}
+		
+		taxes = subtotal.multiply(new BigDecimal(0.06), mc);
+		total = subtotal.add(taxes, mc);
+		System.out.println("\nYour subtotal is: $" + subtotal);
 
-		System.out.println("Your taxes are: $" + nd.format(taxes));
-		System.out.println("Your total is: $" + nd.format(total));
+		System.out.println("Your taxes are: $" + taxes);
+		System.out.println("Your total is: $" + total);
 	}
 
+
 	public static void cash() {
-		System.out.print("Cash: $");
-		double tender = sc.nextDouble();
-		double change = tender - total;
+		System.out.print("Cash: ");
+		BigDecimal tender = new BigDecimal(sc.nextDouble());
+		BigDecimal change = tender.subtract(total, mc);
 		System.out.println("Thank you! Your change is " + change);
 	}
 
 	public static void check() {
 		System.out.print("Please enter you check number: ");
 		int checkNumber = sc.nextInt();
-		System.out.println("Thank you! Your check number: " + paymentChoice
+		System.out.println("Thank you! Your check number: " + checkNumber
 				+ "has been aproved.");
 
 	}
@@ -50,16 +55,17 @@ public class Payment {
 		System.out.println("Your credit card (number: " + ccnum + " exp. date: " + exp + ") has been approved!  Thank you.");
 	}
 
+
 	public static void receipt(ArrayList<Product> userProducts, Scanner scan) {
 		sc = scan;
+		System.out.println("\nHere's your order: ");
 		for (int i = 0; i < userProducts.size(); i++) {
 
 			System.out.print(userProducts.get(i).getProductName()
 					+ "\t"
 					+ (userProducts.get(i).getProductQuantity())
 					+ "\t\t$"
-					+ ((userProducts.get(i).getProductPrice()) * (userProducts
-							.get(i).getProductQuantity())) + "\n");
+					+ userProducts.get(i).getProductPrice().multiply(new BigDecimal(userProducts.get(i).getProductQuantity()), mc) + "\n");
 
 		}
 		calcSubtotal(userProducts);
