@@ -16,7 +16,7 @@ public class PosTerminal {
 	
 	static ArrayList<Product> products = new ArrayList<Product>();
 	static ArrayList<Product> cart = new ArrayList<Product>();
-	static int orderNumber = 0;
+	static int orderNumber = 1;
 	static boolean cont = true;
 	static Scanner sc = new Scanner(System.in);
 	
@@ -25,18 +25,12 @@ public class PosTerminal {
 		//Read the products from text file into arraylist of products
 		populateProducts();
 		
-		System.out.println("Welcome to our Grocery Store!\n");
+		System.out.println("Welcome to our Grocery Store!");
 		while (cont) {
 			//display menu
 			displayMenu();
 		}
 		
-		
-		
-		
-		
-		
-
 	}
 
 	public static void populateProducts() {
@@ -78,9 +72,8 @@ public class PosTerminal {
 	
 	public static void displayMenu(){
 		
-		orderNumber +=1;
-		System.out.println("Order #: " + orderNumber);
-		int choice = InputCheck.getInt(sc, "\nCategories\n1.Fruit\n2.Vegetable\n3.Meat\n4.Dairy\n5.Snacks\n6.Exit\nChoose one: (1-6) ", 1, 5);
+		System.out.println("\nOrder #: " + orderNumber);
+		int choice = InputCheck.getInt(sc, "\nCategories\n1.Fruit\n2.Vegetable\n3.Meat\n4.Dairy\n5.Snacks\n6.Checkout\n7.Exit\nChoose one: (1-7) ", 1, 7);
 		
 		switch(choice){
 		case 1:
@@ -99,6 +92,11 @@ public class PosTerminal {
 			displayCategory("Snacks");
 			break;
 		case 6:
+			Payment.receipt(cart);
+			orderNumber +=1;
+			break;
+		case 7:
+			System.out.println("\nPlease come again!");
 			cont = false;
 			break;
 		}
@@ -107,26 +105,39 @@ public class PosTerminal {
 	public static void displayCategory(String category){
 		ArrayList<Product> categoryList = new ArrayList<Product>();
 		boolean isEmpty = true;
-		int catMenuNum = 1;
+		int catMenuNum = 0;
 		
 		System.out.println("\n"+category);
 		for (int i = 0; i < products.size(); i++) {
 			if(products.get(i).getProductCategory().equalsIgnoreCase(category)){
+				isEmpty = false;
+				catMenuNum += 1;
 				categoryList.add(products.get(i));
 				
-				System.out.println(catMenuNum + "." + products.get(i).getProductName() + "\t\t$" + products.get(i).getProductPrice());
-				System.out.println("  " + products.get(i).getProductDescription());
-				
-				catMenuNum += 1;
-				isEmpty = false;
+				System.out.print(catMenuNum + "." + products.get(i).getProductName() + "\t\t$" + products.get(i).getProductPrice());
+				System.out.println("\t" + products.get(i).getProductDescription());
 			}
 		}
 		if(isEmpty)
 			System.out.println("Category is empty!");
 		
-		int prodChoice = InputCheck.getInt(sc, "\nWhat would you like? (1-" + catMenuNum + ") ", 1, catMenuNum);
-		int prodQty = InputCheck.getInt(sc, "How many " + categoryList.get(prodChoice-1).getProductName() + "'s would you like? ");
-		cart.add(categoryList.get(prodChoice-1).clone(prodQty));//create new method in product class that will clone name and price from object passed to it, also take qty in param.
+		System.out.println("0.Go back");
+		int prodChoice = InputCheck.getInt(sc, "\nWhat would you like? (0-" + catMenuNum + ") ", 0, catMenuNum);
+		if (prodChoice != 0) {
+			int prodQty = InputCheck.getInt(sc,
+					"How many " + categoryList.get(prodChoice - 1).getProductName() + "'s would you like: ");
+			cart.add(categoryList.get(prodChoice - 1).addToCart(prodQty));
+			displayCart();
+			displayCategory(category);
+		}
+		
+	}
+	
+	public static void displayCart(){
+		System.out.println("\nShopping cart:");
+		for (int i = 0; i < cart.size(); i++) {
+			System.out.println(cart.get(i).getProductName() + "\t(x" + cart.get(i).getProductQuantity() + ")");
+		}
 	}
 	
 }

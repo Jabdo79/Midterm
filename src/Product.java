@@ -16,11 +16,8 @@ public class Product {
 	}
 
 	// Constructor overloading 2
-	public Product(String productName, String productCategory,
-			String productDescription, double productPrice, int quantity) {
+	public Product(String productName, double productPrice, int productQuantity) {
 		this.productName = productName;
-		this.productCategory = productCategory;
-		this.productDescription = productDescription;
 		this.productPrice = productPrice;
 		this.productQuantity = productQuantity;
 
@@ -49,6 +46,10 @@ public class Product {
 
 	public void setProductQuantity(int productQuantity) {
 		this.productQuantity = productQuantity;
+	}
+	
+	public Product addToCart(int quantity){
+		return new Product(productName, productPrice, quantity);
 	}
 }
 // test
