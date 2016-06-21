@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.regex.Pattern;
 
 public class Payment {
 
@@ -18,7 +19,7 @@ public class Payment {
 	
 	public static void getPayment() {
 		System.out.println("How would you like to pay? "
-				+ "Please choose a payment method cash, payment or credit: ");
+				+ "Please choose a payment method cash, check or credit: ");
 		String paymentChoice = sc.nextLine().toLowerCase();
 		System.out.println("Your choice: " + paymentChoice);
 		switch (paymentChoice) {
@@ -88,7 +89,7 @@ public class Payment {
 	public static void credit() {
 		System.out.print("Enter your credit card number: ");
 		String ccnum = sc.nextLine();
-		while (ccnum.contains("[a-zA-Z]+") || ccnum.length() != 16) {
+		while (ccnum.contains("[a-zA-z]+") == false && ccnum.length() != 16) { //Crappy code here!!!
 			System.out.println("Please enter a valid credit card number.");
 			ccnum = sc.nextLine();
 		}
@@ -104,11 +105,19 @@ public class Payment {
 			getPayment();
 		}else{
 			System.out.print("Enter the CVV: ");
-			int cvv = sc.nextInt();
-			System.out.println("Your credit card (ending in: " + subCCnum
-				+ " exp. date: " + exp + ") has been approved!  Thank you.");
+			String cvv = sc.nextLine();
+			boolean cont = false;
+			while(!cont){
+				if(cvv.length() != 3 || Pattern.matches("[a-zA-Z]+",cvv) == false){
+					cont = false;
+					System.out.println("Invalid CVV.  Please enter the three digit number on the back of your credit card.");
+					cvv = sc.nextLine();
+				}else{
+				System.out.println("Your credit card (ending in: " + subCCnum + " exp. date: " + exp + ") has been approved!  Thank you.");
+				cont = true;
+				}
+			}
 		}
-
 	}
 
 	public static void receipt(ArrayList<Product> userProducts, Scanner scan) {
@@ -125,24 +134,5 @@ public class Payment {
 		}
 		calcSubtotal(userProducts);
 		getPayment();
-		/*System.out.println("How would you like to pay? "
-				+ "Please choose a payment method cash, payment or credit: ");
-		String paymentChoice = sc.nextLine().toLowerCase();
-		System.out.println("Your choice: " + paymentChoice);
-		switch (paymentChoice) {
-		case "cash":
-
-			cash();
-			break;
-
-		case "check":
-			check();
-			break;
-
-		case "credit":
-			credit();
-			break;
-		}*/
-
 	}
 }
