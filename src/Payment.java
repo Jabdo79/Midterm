@@ -1,6 +1,8 @@
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -13,6 +15,27 @@ public class Payment {
 	private static BigDecimal subtotal = new BigDecimal(0);
 	private static BigDecimal total = new BigDecimal(0);
 	private static BigDecimal taxes;
+	
+	public static void getPayment() {
+		System.out.println("How would you like to pay? "
+				+ "Please choose a payment method cash, payment or credit: ");
+		String paymentChoice = sc.nextLine().toLowerCase();
+		System.out.println("Your choice: " + paymentChoice);
+		switch (paymentChoice) {
+		case "cash":
+
+			cash();
+			break;
+
+		case "check":
+			check();
+			break;
+
+		case "credit":
+			credit();
+			break;
+		}
+	}
 
 	public static void calcSubtotal(ArrayList<Product> userProducts) {
 
@@ -70,12 +93,21 @@ public class Payment {
 			ccnum = sc.nextLine();
 		}
 		String subCCnum = ccnum.substring(12);
-		System.out.print("Enter the expiration: ");
+		System.out.print("Enter the expiration (yyyy-MM-dd): ");		
 		String exp = sc.nextLine();
-		System.out.print("Enter the CVV: ");
-		int cvv = sc.nextInt();
-		System.out.println("Your credit card (ending in: " + subCCnum
+		LocalDate expirate;
+		expirate = LocalDate.parse(exp);
+		LocalDate date = LocalDate.now();
+		long daysbetween = ChronoUnit.DAYS.between(date, expirate);
+		if (daysbetween < 0){
+			System.out.println("Sorry, your card has been rejected.  It expired " + Math.abs(daysbetween) + " days ago");
+			getPayment();
+		}else{
+			System.out.print("Enter the CVV: ");
+			int cvv = sc.nextInt();
+			System.out.println("Your credit card (ending in: " + subCCnum
 				+ " exp. date: " + exp + ") has been approved!  Thank you.");
+		}
 
 	}
 
@@ -97,7 +129,8 @@ public class Payment {
 
 		}
 		calcSubtotal(userProducts);
-		System.out.println("How would you like to pay? "
+		getPayment();
+		/*System.out.println("How would you like to pay? "
 				+ "Please choose a payment method cash, payment or credit: ");
 		String paymentChoice = sc.nextLine().toLowerCase();
 		System.out.println("Your choice: " + paymentChoice);
@@ -114,7 +147,7 @@ public class Payment {
 		case "credit":
 			credit();
 			break;
-		}
+		}*/
 
 	}
 }
