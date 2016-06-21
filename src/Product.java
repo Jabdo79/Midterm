@@ -1,16 +1,15 @@
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
+import java.math.BigDecimal;
 
 public class Product {
 	private String productName;
 	private String productCategory;
 	private String productDescription;
-	private double productPrice;
+	private BigDecimal productPrice;
 	private int productQuantity;
 
 	// Constructor
 	public Product(String productName, String productCategory,
-			String productDescription, double productPrice) {
+			String productDescription, BigDecimal productPrice) {
 		this.productName = productName;
 		this.productCategory = productCategory;
 		this.productDescription = productDescription;
@@ -19,7 +18,7 @@ public class Product {
 	}
 
 	// Constructor overloading 2
-	public Product(String productName, double productPrice, int productQuantity) {
+	public Product(String productName, BigDecimal productPrice, int productQuantity) {
 		this.productName = productName;
 		this.productPrice = productPrice;
 		this.productQuantity = productQuantity;
@@ -39,7 +38,7 @@ public class Product {
 		return productDescription;
 	}
 
-	public double getProductPrice() {
+	public BigDecimal getProductPrice() {
 		return productPrice;
 	}
 
