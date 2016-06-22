@@ -1,4 +1,3 @@
-
 /* Candelaria, Jonathan and Rahul
  * POS Terminal Midterm Project
  */
@@ -26,13 +25,11 @@ public class Inventory {
 	private static File file;
 	private static final Charset charset = Charset.forName("US-ASCII");
 
+	
 	public static void populateProducts() {
 
 		Path p = Paths.get("src/products.txt");
 		file = new File(p.toString());
-
-		// BigDecimal Formatting to two digits after decimal
-		MathContext mc = new MathContext(4);
 
 		String line = null;
 		boolean empty = true;
@@ -45,7 +42,7 @@ public class Inventory {
 				String[] splitProduct = line.split("\t");
 				// creates a product object from split line
 				Product product = new Product(splitProduct[0], splitProduct[1], splitProduct[2],
-						new BigDecimal(splitProduct[3], mc));
+						new BigDecimal(splitProduct[3]));
 				// adds product to arraylist
 				products.add(product);
 				empty = false;

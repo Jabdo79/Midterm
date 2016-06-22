@@ -14,9 +14,6 @@ import java.util.regex.Pattern;
 public class Payment {
 
 	private static Scanner sc;
-	// BigDecimal Formatting to two digits after decimal
-
-	private static MathContext mc = new MathContext(4);
 	private static BigDecimal subtotal = new BigDecimal(0);
 	private static BigDecimal total = new BigDecimal(0);
 	private static BigDecimal taxes;
@@ -30,7 +27,7 @@ public class Payment {
 					userProducts.get(i).getProductName(),
 					"x"+ userProducts.get(i).getProductQuantity(),
 					"$" + userProducts.get(i).getProductPrice().multiply(
-							new BigDecimal(userProducts.get(i).getProductQuantity()), mc));
+							new BigDecimal(userProducts.get(i).getProductQuantity())));
 			System.out.println("");
 		}
 		calcTotal(userProducts);
@@ -46,11 +43,11 @@ public class Payment {
 							.getProductPrice()
 							.multiply(
 									new BigDecimal(userProducts.get(i)
-											.getProductQuantity())), mc);
+											.getProductQuantity())));
 		}
 
-		taxes = subtotal.multiply(new BigDecimal(0.06, mc), mc);
-		total = subtotal.add(taxes, mc);
+		taxes = subtotal.multiply(new BigDecimal(0.06));
+		total = subtotal.add(taxes);
 		subtotal = subtotal.setScale(2, RoundingMode.HALF_UP);
 		System.out.println("\nYour subtotal is: $" + subtotal);
 
@@ -77,8 +74,9 @@ public class Payment {
 	}
 
 	public static void cash() {
-		BigDecimal tender = new BigDecimal(InputCheck.getDouble(sc, "\nEnter cash amount: "));
-		BigDecimal change = tender.subtract(total, mc).setScale(2, RoundingMode.HALF_UP);
+		System.out.println("\nYour total is: " + total);
+		BigDecimal tender = new BigDecimal(InputCheck.getDouble(sc, "Enter cash amount: "));
+		BigDecimal change = tender.subtract(total).setScale(2, RoundingMode.HALF_UP);
 		if (tender.compareTo(total) < 0) {
 			System.out.println("The remaining balance is: " + change.abs()
 					+ " Please settle your balance.");
