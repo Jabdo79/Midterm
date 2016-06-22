@@ -33,11 +33,11 @@ public class Payment {
 							new BigDecimal(userProducts.get(i).getProductQuantity()), mc));
 			System.out.println("");
 		}
-		calcSubtotal(userProducts);
-		getPayment();
+		calcTotal(userProducts);
+		choosePayment();
 	}
 	
-	public static void calcSubtotal(ArrayList<Product> userProducts) {
+	public static void calcTotal(ArrayList<Product> userProducts) {
 
 		for (int i = 0; i < userProducts.size(); i++) {
 			subtotal = subtotal.add(
@@ -61,22 +61,16 @@ public class Payment {
 		System.out.println("Your total is: $" + total);
 	}
 	
-	public static void getPayment() {
-		System.out.println("How would you like to pay? "
-				+ "Please choose a payment method cash, check or credit: ");
-		String paymentChoice = sc.nextLine().toLowerCase();
-		System.out.println("Your choice: " + paymentChoice);
+	public static void choosePayment() {
+		int paymentChoice = InputCheck.getInt(sc, "\nPayment Methods\n1.Cash\n2.Check\n3.Credit\nHow would you like to pay? (1-3)", 1, 3);
 		switch (paymentChoice) {
-		case "cash":
-
+		case 1:
 			cash();
 			break;
-
-		case "check":
+		case 2:
 			check();
 			break;
-
-		case "credit":
+		case 3:
 			credit();
 			break;
 		}
@@ -90,11 +84,13 @@ public class Payment {
 					+ " Please settle your balance.");
 			total = change.abs();
 			sc.nextLine();
-			getPayment();
+			choosePayment();
 
 		} else {
-
-			System.out.println("Thank you! Your change is " + change);
+			if (change.equals(new BigDecimal(0.00).setScale(2, RoundingMode.HALF_UP))) {
+				System.out.println("\nThank you! Please come again!");
+			}else
+				System.out.println("Thank you! Your change is " + change);
 		}
 	}
 
@@ -102,13 +98,13 @@ public class Payment {
 
 		int checkNumber = InputCheck.getInt(sc, "Please enter you check number: ");
 
-		System.out.println("Thank you! Your check number: " + checkNumber
-				+ "has been aproved.");
+		System.out.println("\nThank you! Your check number: " + checkNumber
+				+ " has been aproved.");
 
 	}
 
 	public static void credit() {
-		System.out.print("Enter your credit card number: ");
+		System.out.print("\nEnter your credit card number: ");
 		String ccnum = sc.nextLine();
 		while (ccnum.matches("[0-9]+") == false || ccnum.length() != 16) {
 			System.out.println("Please enter a valid credit card number.");
@@ -131,7 +127,7 @@ public class Payment {
 		long daysbetween = ChronoUnit.DAYS.between(date, expirate);
 		if (daysbetween < 0){
 			System.out.println("Sorry, your card has been rejected.  It expired " + Math.abs(daysbetween) + " days ago");
-			getPayment();
+			choosePayment();
 		}else{
 			System.out.print("Enter the CVV: ");
 			String cvv = sc.nextLine();
@@ -142,7 +138,7 @@ public class Payment {
 					System.out.println("Invalid CVV.  Please enter the three digit number on the back of your credit card.");
 					cvv = sc.nextLine();
 				}else{
-				System.out.println("Your credit card (ending in: " + subCCnum + ") has been approved!  Thank you.");
+				System.out.println("Your credit card (ending in: " + subCCnum + ") has been approved.  \nThank you! Please come again!");
 				cont = true;
 				}
 			}
