@@ -14,30 +14,35 @@ import java.util.regex.Pattern;
 public class Payment {
 	//Declaring global variables
 	private static Scanner sc;
-	private static MathContext mc = new MathContext(4); 
-	private static BigDecimal subtotal = new BigDecimal(0); 
+	private static BigDecimal subtotal = new BigDecimal(0);
 	private static BigDecimal total = new BigDecimal(0);
 	private static BigDecimal taxes;
 	
-	public static void receipt(ArrayList<Product> userProducts, Scanner scan) {
+	public static void receipt(ArrayList<Product> userProducts, int orderNumber, Scanner scan) {
 		sc = scan;
-		System.out.println("\nHere's your order: ");
+		System.out.println("\n-------------------------------------------");
+		System.out.println("Order #: " + orderNumber);
+		System.out.println("-------------------------------------------");
 		//For loop iterates through each Product in Array List
-		for (int i = 0; i < userProducts.size(); i++) { 
+		for (int i = 0; i < userProducts.size(); i++) {
 			//Formats the output, so that the columns align nicely
-			System.out.format("%-25s%-10s%-5s",  
+			System.out.format("%-25s%-10s%-5s", 
 					userProducts.get(i).getProductName(),
 					"x"+ userProducts.get(i).getProductQuantity(),
 					"$" + userProducts.get(i).getProductPrice().multiply(
-							new BigDecimal(userProducts.get(i).getProductQuantity()), mc));
+							new BigDecimal(userProducts.get(i).getProductQuantity())));
 			System.out.println("");
 		}
-		calcSubtotal(userProducts);
-		getPayment();
+		System.out.println("-------------------------------------------");
+		//Method prints the subtotal, tax, and total for all items in cart
+		calcTotal(userProducts);
+		System.out.println("-------------------------------------------");
+		choosePayment();
 	}
 	
-	public static void calcSubtotal(ArrayList<Product> userProducts) {
+	public static void calcTotal(ArrayList<Product> userProducts) {
 
+		// For loop iterates through each product in the cart array list, continuously summing the subtotal
 		for (int i = 0; i < userProducts.size(); i++) {
 			subtotal = subtotal.add(
 					userProducts
@@ -45,12 +50,12 @@ public class Payment {
 							.getProductPrice()
 							.multiply(
 									new BigDecimal(userProducts.get(i)
-											.getProductQuantity())), mc);
+											.getProductQuantity())));
 		}
 
-		taxes = subtotal.multiply(new BigDecimal(0.06, mc), mc);
-		total = subtotal.add(taxes, mc);
 		// BigDecimal Formatting to two digits after decimal
+		taxes = subtotal.multiply(new BigDecimal(0.06));
+		total = subtotal.add(taxes);
 		subtotal = subtotal.setScale(2, RoundingMode.HALF_UP);
 		System.out.println("\nYour subtotal is: $" + subtotal);
 
@@ -61,54 +66,51 @@ public class Payment {
 		System.out.println("Your total is: $" + total);
 	}
 	
-	public static void getPayment() {
-		System.out.println("How would you like to pay? "
-				+ "Please choose a payment method cash, check or credit: ");
-		String paymentChoice = sc.nextLine().toLowerCase();
-		System.out.println("Your choice: " + paymentChoice);
+	public static void choosePayment() {
+		//Asks the user how they would like to pay by entering an input corresponding to payment method.
+		int paymentChoice = InputCheck.getInt(sc, "\nChoose a Payment Method\n1.Cash\n2.Check\n3.Credit\nHow would you like to pay? (1-3) ", 1, 3);
 		switch (paymentChoice) {
-		case "cash":
-
+		case 1:
 			cash();
 			break;
-
-		case "check":
+		case 2:
 			check();
 			break;
-
-		case "credit":
+		case 3:
 			credit();
 			break;
 		}
 	}
 
 	public static void cash() {
+		System.out.println("\nYour total is: " + total);
 		BigDecimal tender = new BigDecimal(InputCheck.getDouble(sc, "Enter cash amount: "));
-		BigDecimal change = tender.subtract(total, mc).setScale(2, RoundingMode.HALF_UP);
+		BigDecimal change = tender.subtract(total).setScale(2, RoundingMode.HALF_UP);
 		if (tender.compareTo(total) < 0) {
-			System.out.println("The remaining balance is: " + change.abs()
-					+ " Please settle your balance.");
+			System.out.println("The remaining balance is: " + change.abs());
 			total = change.abs();
 			sc.nextLine();
-			getPayment();
+			choosePayment();
 
 		} else {
-
-			System.out.println("Thank you! Your change is " + change);
+			if (change.equals(new BigDecimal(0.00).setScale(2, RoundingMode.HALF_UP))) {
+				System.out.println("\nThank you! Please come again!");
+			}else
+				System.out.println("Your change is " + change + "\nThank you! Please come again!");
 		}
 	}
 
 	public static void check() {
 
-		int checkNumber = InputCheck.getInt(sc, "Please enter you check number: ");
+		int checkNumber = InputCheck.getInt(sc, "\nPlease enter you check number: ");
 
-		System.out.println("Thank you! Your check number: " + checkNumber
-				+ "has been aproved.");
+		System.out.println("\nThank you! Your check number: " + checkNumber
+				+ " has been aproved.");
 
 	}
 
 	public static void credit() {
-		System.out.print("Enter your credit card number: ");
+		System.out.print("\nEnter your credit card number: ");
 		String ccnum = sc.nextLine();
 		while (ccnum.matches("[0-9]+") == false || ccnum.length() != 16) {
 			System.out.println("Please enter a valid credit card number.");
@@ -130,7 +132,7 @@ public class Payment {
 		long daysbetween = ChronoUnit.DAYS.between(date, expirate);
 		if (daysbetween < 0){
 			System.out.println("Sorry, your card has been rejected.  It expired " + Math.abs(daysbetween) + " days ago");
-			getPayment();
+			choosePayment();
 		}else{
 			System.out.print("Enter the CVV: ");
 			String cvv = sc.nextLine();
@@ -141,7 +143,7 @@ public class Payment {
 					System.out.println("Invalid CVV.  Please enter the three digit number on the back of your credit card.");
 					cvv = sc.nextLine();
 				}else{
-				System.out.println("Your credit card (ending in: " + subCCnum + ") has been approved!  Thank you.");
+				System.out.println("Your credit card (ending in: " + subCCnum + ") has been approved.  \nThank you! Please come again!");
 				cont = true;
 				}
 			}
