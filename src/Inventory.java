@@ -25,7 +25,6 @@ public class Inventory {
 	private static File file;
 	private static final Charset charset = Charset.forName("US-ASCII");
 	private static boolean cont = true;
-
 	
 	public static void populateProducts() {
 
@@ -115,6 +114,7 @@ public class Inventory {
 			int prodQty = InputCheck.getInt(sc,
 					"How many " + categoryList.get(prodChoice - 1).getProductName() + "'s would you like: ");
 			if (prodQty != 0) {
+				//create a new product, based off the product selected, using the overloaded constructor to add quantity
 				cart.add(categoryList.get(prodChoice - 1).addToCart(prodQty));
 			}
 
