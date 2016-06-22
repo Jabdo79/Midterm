@@ -24,11 +24,7 @@ public class Inventory {
 	
 	public static void populateProducts() {
 
-		
-		
-		// creates a path including filename
 		Path p = Paths.get("src/products.txt");
-		// creates a new file using the path
 		file = new File(p.toString());
 		
 		//BigDecimal Formatting to two digits after decimal
@@ -38,10 +34,8 @@ public class Inventory {
 		boolean empty = true;
 
 		try {
-			// create new reader using the file's path and US char set
 			BufferedReader br = Files.newBufferedReader(file.toPath(), charset);
 			
-			// while the line is not empty, create a product from it and store in arraylist
 			while ((line = br.readLine()) != null) {
 				//splits line by tab
 				String[] splitProduct = line.split("\t");
@@ -59,48 +53,6 @@ public class Inventory {
 		//prints if list is empty
 		if (empty)
 			System.out.println("List is empty!");
-	}
-	
-	private static void addProduct(){
-		System.out.print("\nEnter product name: ");
-		String name = sc.nextLine().trim();
-		System.out.print("Enter product category: ");
-		String cat = sc.nextLine().trim();
-		System.out.print("Enter product description: ");
-		String desc = sc.nextLine().trim();
-		System.out.print("Enter product price: ");
-		BigDecimal price = new BigDecimal(InputCheck.getDouble(sc)).setScale(2, RoundingMode.HALF_UP);
-		String prod = name + "\t" + cat + "\t" + desc + "\t" + price;
-		
-		if (!containsProduct(name)) {
-			try {
-				// opens file with intention of appending
-				FileWriter fw = new FileWriter(file.getAbsolutePath(), true);
-				BufferedWriter bw = new BufferedWriter(fw);
-				// write to file
-				bw.write(prod + "\n");
-				bw.close();
-
-			} catch (IOException e) {
-				System.out.println(e);
-			}
-			System.out.println(name + " has been saved!");
-			populateProducts();
-		}
-		else
-			System.out.println(name+" is already in the list.");
-	}
-	
-	private static boolean containsProduct(String name){
-		boolean found = false;
-		
-		for(int i = 0; i < products.size(); i++){
-			if(products.get(i).getProductName().equalsIgnoreCase(name)){
-				found = true;
-				break;
-			}	
-		}
-		return found;
 	}
 	
 	public static void displayMenu(){
@@ -168,6 +120,7 @@ public class Inventory {
 		System.out.println("0.Go back");
 		int prodChoice = InputCheck.getInt(sc, "\nWhat would you like? (0-" + catMenuNum + ") ", 0, catMenuNum);
 		if (prodChoice != 0) {
+			//CATCH 0 QTY, if they enter 0 do nothing
 			int prodQty = InputCheck.getInt(sc,
 					"How many " + categoryList.get(prodChoice - 1).getProductName() + "'s would you like: ");
 			cart.add(categoryList.get(prodChoice - 1).addToCart(prodQty));
@@ -182,5 +135,47 @@ public class Inventory {
 		for (int i = 0; i < cart.size(); i++) {
 			System.out.println(cart.get(i).getProductName() + "\t(x" + cart.get(i).getProductQuantity() + ")");
 		}
+	}
+	
+	private static void addProduct(){
+		System.out.print("\nEnter product name: ");
+		String name = sc.nextLine().trim();
+		System.out.print("Enter product category: ");
+		String cat = sc.nextLine().trim();
+		System.out.print("Enter product description: ");
+		String desc = sc.nextLine().trim();
+		System.out.print("Enter product price: ");
+		BigDecimal price = new BigDecimal(InputCheck.getDouble(sc)).setScale(2, RoundingMode.HALF_UP);
+		String prod = name + "\t" + cat + "\t" + desc + "\t" + price;
+		
+		if (!containsProduct(name)) {
+			try {
+				// opens file with intention of appending
+				FileWriter fw = new FileWriter(file.getAbsolutePath(), true);
+				BufferedWriter bw = new BufferedWriter(fw);
+				// write to file
+				bw.write(prod + "\n");
+				bw.close();
+
+			} catch (IOException e) {
+				System.out.println(e);
+			}
+			System.out.println(name + " has been saved!");
+			populateProducts();
+		}
+		else
+			System.out.println(name+" is already in the list.");
+	}
+	
+	private static boolean containsProduct(String name){
+		boolean found = false;
+		
+		for(int i = 0; i < products.size(); i++){
+			if(products.get(i).getProductName().equalsIgnoreCase(name)){
+				found = true;
+				break;
+			}	
+		}
+		return found;
 	}
 }
