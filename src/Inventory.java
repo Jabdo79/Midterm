@@ -157,27 +157,30 @@ public class Inventory {
 		String name = sc.nextLine().trim();
 		
 		if (!containsProduct(name)) {
-			System.out.print("Enter product category: ");
+			System.out.print("Enter product category: (Fruit/Vegetable/Meat/Dairy/Snacks) ");
 			String cat = sc.nextLine().trim();
-			System.out.print("Enter product description: ");
-			String desc = sc.nextLine().trim();
-			System.out.print("Enter product price: ");
-			BigDecimal price = new BigDecimal(InputCheck.getDouble(sc)).setScale(2, RoundingMode.HALF_UP);
-			String prod = name + "\t" + cat + "\t" + desc + "\t" + price;
+			if (cat.equalsIgnoreCase("fruit") || cat.equalsIgnoreCase("vegetable") || cat.equalsIgnoreCase("meat") || cat.equalsIgnoreCase("dairy") || cat.equalsIgnoreCase("snacks")) {
+				
+				System.out.print("Enter product description: ");
+				String desc = sc.nextLine().trim();
+				System.out.print("Enter product price: ");
+				BigDecimal price = new BigDecimal(InputCheck.getDouble(sc)).setScale(2, RoundingMode.HALF_UP);
+				String prod = name + "\t" + cat + "\t" + desc + "\t" + price;
+				try {
+					// opens file with intention of appending
+					FileWriter fw = new FileWriter(file.getAbsolutePath(), true);
+					BufferedWriter bw = new BufferedWriter(fw);
+					// write to file
+					bw.write(prod + "\n");
+					bw.close();
 
-			try {
-				// opens file with intention of appending
-				FileWriter fw = new FileWriter(file.getAbsolutePath(), true);
-				BufferedWriter bw = new BufferedWriter(fw);
-				// write to file
-				bw.write(prod + "\n");
-				bw.close();
-
-			} catch (IOException e) {
-				System.out.println(e);
-			}
-			System.out.println(name + " has been saved!");
-			populateProducts();
+				} catch (IOException e) {
+					System.out.println(e);
+				}
+				System.out.println(name + " has been saved!");
+				populateProducts();
+			}else
+				System.out.println("That category does not exist.");
 		} else
 			System.out.println(name + " is already in the list.");
 	}
