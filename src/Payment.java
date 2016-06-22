@@ -1,3 +1,6 @@
+/* Candelaria, Jonathan and Rahul
+ * POS Terminal Midterm Project
+ */
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
