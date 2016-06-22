@@ -22,7 +22,10 @@ public class Product {
 		this.productName = productName;
 		this.productPrice = productPrice;
 		this.productQuantity = productQuantity;
-
+	}
+	
+	public Product addToCart(int quantity){
+		return new Product(productName, productPrice, quantity);
 	}
 
 	public String getProductName() {
@@ -48,10 +51,6 @@ public class Product {
 
 	public void setProductQuantity(int productQuantity) {
 		this.productQuantity = productQuantity;
-	}
-	
-	public Product addToCart(int quantity){
-		return new Product(productName, productPrice, quantity);
 	}
 }
 // test
