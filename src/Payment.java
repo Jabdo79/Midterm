@@ -12,21 +12,20 @@ import java.util.Scanner;
 import java.util.regex.Pattern;
 
 public class Payment {
-
+	//Declaring global variables
 	private static Scanner sc;
-	// BigDecimal Formatting to two digits after decimal
-
-	private static MathContext mc = new MathContext(4);
-	private static BigDecimal subtotal = new BigDecimal(0);
+	private static MathContext mc = new MathContext(4); 
+	private static BigDecimal subtotal = new BigDecimal(0); 
 	private static BigDecimal total = new BigDecimal(0);
 	private static BigDecimal taxes;
 	
 	public static void receipt(ArrayList<Product> userProducts, Scanner scan) {
 		sc = scan;
 		System.out.println("\nHere's your order: ");
-		for (int i = 0; i < userProducts.size(); i++) {
-
-			System.out.format("%-25s%-10s%-5s", 
+		//For loop iterates through each Product in Array List
+		for (int i = 0; i < userProducts.size(); i++) { 
+			//Formats the output, so that the columns align nicely
+			System.out.format("%-25s%-10s%-5s",  
 					userProducts.get(i).getProductName(),
 					"x"+ userProducts.get(i).getProductQuantity(),
 					"$" + userProducts.get(i).getProductPrice().multiply(
@@ -51,6 +50,7 @@ public class Payment {
 
 		taxes = subtotal.multiply(new BigDecimal(0.06, mc), mc);
 		total = subtotal.add(taxes, mc);
+		// BigDecimal Formatting to two digits after decimal
 		subtotal = subtotal.setScale(2, RoundingMode.HALF_UP);
 		System.out.println("\nYour subtotal is: $" + subtotal);
 
@@ -126,7 +126,6 @@ public class Payment {
 				System.out.println("Your date format is invalid. Please try again.");
 			}
 		}
-		//expirate = LocalDate.parse(exp);
 		LocalDate date = LocalDate.now();
 		long daysbetween = ChronoUnit.DAYS.between(date, expirate);
 		if (daysbetween < 0){
