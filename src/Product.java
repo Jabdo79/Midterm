@@ -8,8 +8,7 @@ public class Product {
 	private int productQuantity;
 
 	// Constructor
-	public Product(String productName, String productCategory,
-			String productDescription, BigDecimal productPrice) {
+	public Product(String productName, String productCategory, String productDescription, BigDecimal productPrice) {
 		this.productName = productName;
 		this.productCategory = productCategory;
 		this.productDescription = productDescription;

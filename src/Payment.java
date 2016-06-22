@@ -16,8 +16,7 @@ public class Payment {
 	private static BigDecimal total = new BigDecimal(0);
 	private static BigDecimal taxes;
 
-	public static void receipt(ArrayList<Product> userProducts,
-			int orderNumber, Scanner scan) {
+	public static void receipt(ArrayList<Product> userProducts, int orderNumber, Scanner scan) {
 		sc = scan;
 		System.out.println("\n-------------------------------------------");
 		System.out.println("Order #: " + orderNumber);
