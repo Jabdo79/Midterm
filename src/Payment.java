@@ -16,7 +16,7 @@ public class Payment {
 	private static BigDecimal subtotal = new BigDecimal(0);
 	private static BigDecimal total = new BigDecimal(0);
 	private static BigDecimal taxes;
-	
+
 	public static void getPayment() {
 		System.out.println("How would you like to pay? "
 				+ "Please choose a payment method cash, check or credit: ");
@@ -89,32 +89,40 @@ public class Payment {
 	public static void credit() {
 		System.out.print("Enter your credit card number: ");
 		String ccnum = sc.nextLine();
-		while (ccnum.contains("[a-zA-z]+") == false && ccnum.length() != 16) { //Crappy code here!!!
+		while (ccnum.contains("[a-zA-z]+") == false && ccnum.length() != 16) { // Crappy
+																				// code
+																				// here!!!
 			System.out.println("Please enter a valid credit card number.");
 			ccnum = sc.nextLine();
 		}
 		String subCCnum = ccnum.substring(12);
-		System.out.print("Enter the expiration (yyyy-MM-dd): ");		
+		System.out.print("Enter the expiration (yyyy-MM-dd): ");
 		String exp = sc.nextLine();
 		LocalDate expirate;
 		expirate = LocalDate.parse(exp);
 		LocalDate date = LocalDate.now();
 		long daysbetween = ChronoUnit.DAYS.between(date, expirate);
-		if (daysbetween < 0){
-			System.out.println("Sorry, your card has been rejected.  It expired " + Math.abs(daysbetween) + " days ago");
+		if (daysbetween < 0) {
+			System.out
+					.println("Sorry, your card has been rejected.  It expired "
+							+ Math.abs(daysbetween) + " days ago");
 			getPayment();
-		}else{
+		} else {
 			System.out.print("Enter the CVV: ");
 			String cvv = sc.nextLine();
 			boolean cont = false;
-			while(!cont){
-				if(cvv.length() != 3 || Pattern.matches("[a-zA-Z]+",cvv) == false){
+			while (!cont) {
+				if (cvv.length() != 3
+						|| Pattern.matches("[a-zA-Z]+", cvv) == false) {
 					cont = false;
-					System.out.println("Invalid CVV.  Please enter the three digit number on the back of your credit card.");
+					System.out
+							.println("Invalid CVV.  Please enter the three digit number on the back of your credit card.");
 					cvv = sc.nextLine();
-				}else{
-				System.out.println("Your credit card (ending in: " + subCCnum + " exp. date: " + exp + ") has been approved!  Thank you.");
-				cont = true;
+				} else {
+					System.out.println("Your credit card (ending in: "
+							+ subCCnum + " exp. date: " + exp
+							+ ") has been approved!  Thank you.");
+					cont = true;
 				}
 			}
 		}
@@ -125,11 +133,20 @@ public class Payment {
 		System.out.println("\nHere's your order: ");
 		for (int i = 0; i < userProducts.size(); i++) {
 
-			System.out.format("%-25s%-10s%-5s", 
-					userProducts.get(i).getProductName(),
-					"x"+ userProducts.get(i).getProductQuantity(),
-					"$" + userProducts.get(i).getProductPrice().multiply(
-							new BigDecimal(userProducts.get(i).getProductQuantity()), mc));
+			System.out
+					.format("%-25s%-10s%-5s",
+							userProducts.get(i).getProductName(),
+							"x" + userProducts.get(i).getProductQuantity(),
+							"$"
+									+ userProducts
+											.get(i)
+											.getProductPrice()
+											.multiply(
+													new BigDecimal(
+															userProducts
+																	.get(i)
+																	.getProductQuantity()),
+													mc));
 			System.out.println("");
 		}
 		calcSubtotal(userProducts);
