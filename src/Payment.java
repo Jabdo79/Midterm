@@ -89,7 +89,7 @@ public class Payment {
 	public static void credit() {
 		System.out.print("Enter your credit card number: ");
 		String ccnum = sc.nextLine();
-		while (ccnum.contains("[a-zA-z]+") == false && ccnum.length() != 16) { //Crappy code here!!!
+		while (ccnum.matches("[0-9]+") == false || ccnum.length() != 16) { //Crappy code here!!!
 			System.out.println("Please enter a valid credit card number.");
 			ccnum = sc.nextLine();
 		}
@@ -108,7 +108,7 @@ public class Payment {
 			String cvv = sc.nextLine();
 			boolean cont = false;
 			while(!cont){
-				if(cvv.length() != 3 || Pattern.matches("[a-zA-Z]+",cvv) == false){
+				if(cvv.length() != 3 || cvv.matches("[0-9]+") == false){
 					cont = false;
 					System.out.println("Invalid CVV.  Please enter the three digit number on the back of your credit card.");
 					cvv = sc.nextLine();
