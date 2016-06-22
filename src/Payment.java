@@ -20,9 +20,11 @@ public class Payment {
 	
 	public static void receipt(ArrayList<Product> userProducts, int orderNumber, Scanner scan) {
 		sc = scan;
-		System.out.println("\nOrder #: " + orderNumber);
+		System.out.println("\n-------------------------------------------");
+		System.out.println("Order #: " + orderNumber);
+		System.out.println("-------------------------------------------");
 		for (int i = 0; i < userProducts.size(); i++) {
-
+			
 			System.out.format("%-25s%-10s%-5s", 
 					userProducts.get(i).getProductName(),
 					"x"+ userProducts.get(i).getProductQuantity(),
@@ -30,7 +32,9 @@ public class Payment {
 							new BigDecimal(userProducts.get(i).getProductQuantity())));
 			System.out.println("");
 		}
+		System.out.println("-------------------------------------------");
 		calcTotal(userProducts);
+		System.out.println("-------------------------------------------");
 		choosePayment();
 	}
 	
@@ -78,8 +82,7 @@ public class Payment {
 		BigDecimal tender = new BigDecimal(InputCheck.getDouble(sc, "Enter cash amount: "));
 		BigDecimal change = tender.subtract(total).setScale(2, RoundingMode.HALF_UP);
 		if (tender.compareTo(total) < 0) {
-			System.out.println("The remaining balance is: " + change.abs()
-					+ " Please settle your balance.");
+			System.out.println("The remaining balance is: " + change.abs());
 			total = change.abs();
 			sc.nextLine();
 			choosePayment();
@@ -88,7 +91,7 @@ public class Payment {
 			if (change.equals(new BigDecimal(0.00).setScale(2, RoundingMode.HALF_UP))) {
 				System.out.println("\nThank you! Please come again!");
 			}else
-				System.out.println("Thank you! Your change is " + change);
+				System.out.println("Your change is " + change + "\nThank you! Please come again!");
 		}
 	}
 
