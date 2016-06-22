@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -114,10 +115,18 @@ public class Payment {
 			ccnum = sc.nextLine();
 		}
 		String subCCnum = ccnum.substring(12);
-		System.out.print("Enter the expiration (yyyy-MM-dd): ");		
-		String exp = sc.nextLine();
-		LocalDate expirate;
-		expirate = LocalDate.parse(exp);
+		LocalDate expirate = null;
+		while (expirate == null) {
+			System.out.print("Enter the expiration (yyyy/MM/dd): ");		
+			String exp = sc.nextLine();
+			DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+			try {
+				expirate = LocalDate.parse(exp, dateFormat);
+			} catch (Exception e){
+				System.out.println("Your date format is invalid. Please try again.");
+			}
+		}
+		//expirate = LocalDate.parse(exp);
 		LocalDate date = LocalDate.now();
 		long daysbetween = ChronoUnit.DAYS.between(date, expirate);
 		if (daysbetween < 0){
@@ -133,7 +142,7 @@ public class Payment {
 					System.out.println("Invalid CVV.  Please enter the three digit number on the back of your credit card.");
 					cvv = sc.nextLine();
 				}else{
-				System.out.println("Your credit card (ending in: " + subCCnum + " exp. date: " + exp + ") has been approved!  Thank you.");
+				System.out.println("Your credit card (ending in: " + subCCnum + ") has been approved!  Thank you.");
 				cont = true;
 				}
 			}
