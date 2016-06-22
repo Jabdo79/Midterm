@@ -24,6 +24,7 @@ public class Inventory {
 	private static Scanner sc = new Scanner(System.in);
 	private static File file;
 	private static final Charset charset = Charset.forName("US-ASCII");
+	private static boolean cont = true;
 
 	
 	public static void populateProducts() {
@@ -38,12 +39,8 @@ public class Inventory {
 			BufferedReader br = Files.newBufferedReader(file.toPath(), charset);
 
 			while ((line = br.readLine()) != null) {
-				// splits line by tab
 				String[] splitProduct = line.split("\t");
-				// creates a product object from split line
-				Product product = new Product(splitProduct[0], splitProduct[1], splitProduct[2],
-						new BigDecimal(splitProduct[3]));
-				// adds product to arraylist
+				Product product = new Product(splitProduct[0], splitProduct[1], splitProduct[2], new BigDecimal(splitProduct[3]));
 				products.add(product);
 				empty = false;
 			}
@@ -52,18 +49,17 @@ public class Inventory {
 		} catch (IOException e) {
 			System.out.println(e);
 		}
-		// prints if list is empty
+		
 		if (empty)
 			System.out.println("List is empty!");
 	}
 
 	public static void displayMenu() {
-		boolean cont = true;
 
 		while (cont) {
 			System.out.println("\nOrder #: " + orderNumber);
 			int choice = InputCheck.getInt(sc,
-					"\nCategories\n1.Fruit\n2.Vegetable\n3.Meat\n4.Dairy\n5.Snacks\n6.Checkout\n7.Add Product\n8.Exit\nChoose one: (1-8) ",
+					"\nCategories\n1.Fruit\n2.Vegetable\n3.Meat\n4.Dairy\n5.Snacks\n6.Checkout\n7.Admin Menu\nChoose one: (1-7) ",
 					1, 8);
 			switch (choice) {
 			case 1:
@@ -86,11 +82,7 @@ public class Inventory {
 				orderNumber += 1;
 				break;
 			case 7:
-				addProduct();
-				break;
-			case 8:
-				System.out.println("\nTerminal is closed!");
-				cont = false;
+				displayAdminMenu();
 				break;
 			}
 		}
@@ -137,6 +129,26 @@ public class Inventory {
 		for (int i = 0; i < cart.size(); i++) {
 			System.out.println(cart.get(i).getProductName() + "\t(x" + cart.get(i).getProductQuantity() + ")");
 		}
+	}
+	
+	private static void displayAdminMenu(){
+		System.out.print("\n***********************\nAdministrator Menu\n***********************\nPassword: ");
+		if(sc.nextLine().equals("123456")){
+			int choice = InputCheck.getInt(sc, "\nAdmin Menu\n1.Add Product\n2.Close Terminal\n0.Go Back\nChoose one: (0-2) ", 0, 2);
+			switch(choice){
+			case 1:
+				addProduct();
+				break;
+			case 2:
+				cont = false;
+				System.out.println("\nTerminal is closed!");
+				break;
+			case 0:
+				System.out.println("\nExiting Admin Menu\n***********************");
+				break;
+			}
+		}else
+			System.out.println("Invalid Password");
 	}
 
 	private static void addProduct() {
