@@ -21,9 +21,9 @@ public class Payment {
 	private static BigDecimal total = new BigDecimal(0);
 	private static BigDecimal taxes;
 	
-	public static void receipt(ArrayList<Product> userProducts, Scanner scan) {
+	public static void receipt(ArrayList<Product> userProducts, int orderNumber, Scanner scan) {
 		sc = scan;
-		System.out.println("\nHere's your order: ");
+		System.out.println("\nOrder #: " + orderNumber);
 		for (int i = 0; i < userProducts.size(); i++) {
 
 			System.out.format("%-25s%-10s%-5s", 
@@ -62,7 +62,7 @@ public class Payment {
 	}
 	
 	public static void choosePayment() {
-		int paymentChoice = InputCheck.getInt(sc, "\nPayment Methods\n1.Cash\n2.Check\n3.Credit\nHow would you like to pay? (1-3)", 1, 3);
+		int paymentChoice = InputCheck.getInt(sc, "\nChoose a Payment Method\n1.Cash\n2.Check\n3.Credit\nHow would you like to pay? (1-3) ", 1, 3);
 		switch (paymentChoice) {
 		case 1:
 			cash();
@@ -77,7 +77,7 @@ public class Payment {
 	}
 
 	public static void cash() {
-		BigDecimal tender = new BigDecimal(InputCheck.getDouble(sc, "Enter cash amount: "));
+		BigDecimal tender = new BigDecimal(InputCheck.getDouble(sc, "\nEnter cash amount: "));
 		BigDecimal change = tender.subtract(total, mc).setScale(2, RoundingMode.HALF_UP);
 		if (tender.compareTo(total) < 0) {
 			System.out.println("The remaining balance is: " + change.abs()
@@ -96,7 +96,7 @@ public class Payment {
 
 	public static void check() {
 
-		int checkNumber = InputCheck.getInt(sc, "Please enter you check number: ");
+		int checkNumber = InputCheck.getInt(sc, "\nPlease enter you check number: ");
 
 		System.out.println("\nThank you! Your check number: " + checkNumber
 				+ " has been aproved.");

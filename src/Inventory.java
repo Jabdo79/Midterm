@@ -85,7 +85,7 @@ public class Inventory {
 				displayCategory("Snacks");
 				break;
 			case 6:
-				Payment.receipt(cart, sc);
+				Payment.receipt(cart, orderNumber, sc);
 				orderNumber += 1;
 				break;
 			case 7:
