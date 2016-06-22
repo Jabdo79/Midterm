@@ -17,27 +17,22 @@ public class Payment {
 	private static BigDecimal total = new BigDecimal(0);
 	private static BigDecimal taxes;
 	
-	public static void getPayment() {
-		System.out.println("How would you like to pay? "
-				+ "Please choose a payment method cash, check or credit: ");
-		String paymentChoice = sc.nextLine().toLowerCase();
-		System.out.println("Your choice: " + paymentChoice);
-		switch (paymentChoice) {
-		case "cash":
+	public static void receipt(ArrayList<Product> userProducts, Scanner scan) {
+		sc = scan;
+		System.out.println("\nHere's your order: ");
+		for (int i = 0; i < userProducts.size(); i++) {
 
-			cash();
-			break;
-
-		case "check":
-			check();
-			break;
-
-		case "credit":
-			credit();
-			break;
+			System.out.format("%-25s%-10s%-5s", 
+					userProducts.get(i).getProductName(),
+					"x"+ userProducts.get(i).getProductQuantity(),
+					"$" + userProducts.get(i).getProductPrice().multiply(
+							new BigDecimal(userProducts.get(i).getProductQuantity()), mc));
+			System.out.println("");
 		}
+		calcSubtotal(userProducts);
+		getPayment();
 	}
-
+	
 	public static void calcSubtotal(ArrayList<Product> userProducts) {
 
 		for (int i = 0; i < userProducts.size(); i++) {
@@ -61,14 +56,37 @@ public class Payment {
 		total = total.setScale(2, RoundingMode.HALF_UP);
 		System.out.println("Your total is: $" + total);
 	}
+	
+	public static void getPayment() {
+		System.out.println("How would you like to pay? "
+				+ "Please choose a payment method cash, check or credit: ");
+		String paymentChoice = sc.nextLine().toLowerCase();
+		System.out.println("Your choice: " + paymentChoice);
+		switch (paymentChoice) {
+		case "cash":
+
+			cash();
+			break;
+
+		case "check":
+			check();
+			break;
+
+		case "credit":
+			credit();
+			break;
+		}
+	}
 
 	public static void cash() {
-		System.out.print("Cash: ");
-		BigDecimal tender = new BigDecimal(sc.nextDouble());
-		BigDecimal change = tender.subtract(total, mc);
+		BigDecimal tender = new BigDecimal(InputCheck.getDouble(sc, "Enter cash amount: "));
+		BigDecimal change = tender.subtract(total, mc).setScale(2, RoundingMode.HALF_UP);
 		if (tender.compareTo(total) < 0) {
 			System.out.println("The remaining balance is: " + change.abs()
 					+ " Please settle your balance.");
+			total = change.abs();
+			sc.nextLine();
+			getPayment();
 
 		} else {
 
@@ -77,9 +95,8 @@ public class Payment {
 	}
 
 	public static void check() {
-		System.out.print("Please enter you check number: ");
 
-		int checkNumber = sc.nextInt();
+		int checkNumber = InputCheck.getInt(sc, "Please enter you check number: ");
 
 		System.out.println("Thank you! Your check number: " + checkNumber
 				+ "has been aproved.");
@@ -89,7 +106,7 @@ public class Payment {
 	public static void credit() {
 		System.out.print("Enter your credit card number: ");
 		String ccnum = sc.nextLine();
-		while (ccnum.matches("[0-9]+") == false || ccnum.length() != 16) { //Crappy code here!!!
+		while (ccnum.matches("[0-9]+") == false || ccnum.length() != 16) {
 			System.out.println("Please enter a valid credit card number.");
 			ccnum = sc.nextLine();
 		}
@@ -118,21 +135,5 @@ public class Payment {
 				}
 			}
 		}
-	}
-
-	public static void receipt(ArrayList<Product> userProducts, Scanner scan) {
-		sc = scan;
-		System.out.println("\nHere's your order: ");
-		for (int i = 0; i < userProducts.size(); i++) {
-
-			System.out.format("%-25s%-10s%-5s", 
-					userProducts.get(i).getProductName(),
-					"x"+ userProducts.get(i).getProductQuantity(),
-					"$" + userProducts.get(i).getProductPrice().multiply(
-							new BigDecimal(userProducts.get(i).getProductQuantity()), mc));
-			System.out.println("");
-		}
-		calcSubtotal(userProducts);
-		getPayment();
 	}
 }

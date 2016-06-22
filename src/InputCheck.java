@@ -33,7 +33,10 @@ public class InputCheck {
 			System.out.print("Please enter a valid 'double' number: ");
 			sc.next();
 		}
-		return sc.nextDouble();
+		double number = sc.nextDouble();
+		//garbage collection
+		sc.nextLine();
+		return number;
 	}
 	
 	public static double getDouble(Scanner sc, String msg){//Loops until a double is entered, returns the double

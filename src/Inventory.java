@@ -120,6 +120,7 @@ public class Inventory {
 		System.out.println("0.Go back");
 		int prodChoice = InputCheck.getInt(sc, "\nWhat would you like? (0-" + catMenuNum + ") ", 0, catMenuNum);
 		if (prodChoice != 0) {
+			//CATCH 0 QTY, if they enter 0 do nothing
 			int prodQty = InputCheck.getInt(sc,
 					"How many " + categoryList.get(prodChoice - 1).getProductName() + "'s would you like: ");
 			cart.add(categoryList.get(prodChoice - 1).addToCart(prodQty));
