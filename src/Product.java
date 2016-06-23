@@ -7,7 +7,6 @@ public class Product {
 	private BigDecimal productPrice;
 	private int productQuantity;
 
-	// Constructor
 	public Product(String productName, String productCategory, String productDescription, BigDecimal productPrice) {
 		this.productName = productName;
 		this.productCategory = productCategory;
@@ -16,7 +15,6 @@ public class Product {
 
 	}
 
-	// Constructor overloading 2
 	public Product(String productName, BigDecimal productPrice, int productQuantity) {
 		this.productName = productName;
 		this.productPrice = productPrice;

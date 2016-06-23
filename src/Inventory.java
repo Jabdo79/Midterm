@@ -159,6 +159,7 @@ public class Inventory {
 		if (!containsProduct(name)) {
 			System.out.print("Enter product category: (Fruit/Vegetable/Meat/Dairy/Snacks) ");
 			String cat = sc.nextLine().trim();
+			
 			if (cat.equalsIgnoreCase("fruit") || cat.equalsIgnoreCase("vegetable") || cat.equalsIgnoreCase("meat") || cat.equalsIgnoreCase("dairy") || cat.equalsIgnoreCase("snacks")) {
 				
 				System.out.print("Enter product description: ");
